@@ -1,0 +1,25 @@
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2">
+    <!-- Controls whether subdeployments (e.g., WARs inside EARs) are classloader isolated -->
+    <ear-subdeployments-isolated>false</ear-subdeployments-isolated>
+
+    <deployment>
+        <!-- Exclude JBoss WS subsystem to prevent auto-binding of CXF services -->
+        <exclude-subsystems>
+            <subsystem name="webservices" />
+        </exclude-subsystems>
+
+        <!-- Explicit dependencies your app needs, including Jakarta APIs -->
+        <dependencies>
+            <module name="jakarta.xml.ws.api" export="true" />
+            <module name="jakarta.jms.api" export="true" />
+            <!-- Optional: Add other Jakarta modules your app may require -->
+        </dependencies>
+
+        <!-- Explicit exclusions of JBoss-provided CXF and WS-Security modules -->
+        <exclusions>
+            <module name="org.apache.cxf" />
+            <module name="org.apache.cxf.impl" />
+            <module name="org.apache.ws.security" />
+        </exclusions>
+    </deployment>
+</jboss-deployment-structure>

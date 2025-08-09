@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <context:component-scan base-package="com.example.service"/>
+
+  
+  <bean id="helloServiceImpl" class="com.example.service.HelloServiceImpl"/>
+  
+<bean id="passwordCallback" class="com.example.security.ServerPasswordCallback"/>
+
+<bean id="wss4jInInterceptor" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+  <constructor-arg>
+    <map>
+      <entry key="action" value="UsernameToken"/>
+      <entry key="passwordCallbackRef" value-ref="passwordCallback"/>
+    </map>
+  </constructor-arg>
+</bean>
+
+
+<jaxws:endpoint id="helloService" implementor="#helloServiceImpl" address="/hello">
+  <jaxws:inInterceptors>
+    <ref bean="wss4jInInterceptor"/>
+  </jaxws:inInterceptors>
+</jaxws:endpoint>
+
+  
+</beans>

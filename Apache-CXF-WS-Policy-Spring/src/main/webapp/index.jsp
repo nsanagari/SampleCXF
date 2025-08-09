@@ -1,0 +1,1 @@
+<h1>CXF Policy Web Application</h1>
